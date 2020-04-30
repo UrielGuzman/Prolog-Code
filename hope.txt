@@ -1,0 +1,101 @@
+dec factorial: num -> num;
+---factorial (0) <= 1;
+---factorial (n) <= n * factorial(n-1);
+factorial(6);
+
+
+dec reverse: list(alpha) -> list(alpha);
+---reverse nil <= nil;
+--- reverse (x::xs) <= reverse(xs) <>[x];
+reverse("Nestor");
+
+dec fibonacci: num -> num;
+---fibonacci (1) <= 0;
+---fibonacci (2) <= 1;
+---fibonacci (n) <= fibonacci(n-1) + fibonacci(n-2);
+fibonacci(6);
+
+
+dec mayor: num # num -> num;
+---mayor(x,y) <= if x>y then x else y;
+mayor(5,4);
+
+dec mayor3: num # num # num -> num;
+---mayor3(x,y,z) <= if x>y then if x>z then x else z else if y>z then y else z;
+mayor3s(5,4,6);
+
+dec mayor3s: num # num # num -> num;
+--- mayor3s(x,y,z) <= mayor ( x ,(mayor(y,z)));
+
+dec sucesivas: num # num -> num;
+--- sucesivas(x,1) <= x;
+--- sucesivas(x,y) <= x+sucesivas(x,y-1);
+sucesivas(5,5);
+
+dec potencia: num # num -> num;
+--- potencia(x,1) <= x;
+--- potencia(x,y) <= x*potencia(x,y-1);
+potencia(5,5);
+
+dec round: num -> num;
+---round(0) <= 0;
+---round(n) <= if n>=1 then 1+round(n-1) else round(0);
+
+dec horas: num -> num;
+---horas(x) <= round(x/3600);
+
+dec minutos: num -> num;
+---minutos(x) <= round(x/60);
+
+
+dec hora: num -> num # num # num;
+---hora(x) <=  horas(x), if horas(x)>0 then minutos(x-(horas(x)*3600)) else minutos(x),  if horas(x)>0 then if minutos(x-(horas(x)*3600))>0 then  (x-((horas(x)*3600)+(minutos(x)*60))) else (x-(horas(x)*3600)) else if minutos(x)>0 then x-(minutos(x)*60) else x; 
+
+dec regresivo: num -> list(num);
+---regresivo (0) <= [0];
+---regresivo (x) <= [x]  <> regresivo(x-1);
+regresivo(10);
+
+dec progresivo: num -> list(num);
+---progresivo(0) <= [0];
+---progresivo (x) <=  progresivo(x-1) <> [x];
+progresivo(10);
+
+dec sumalista: list(num) -> num;
+---sumalista nil <= 0;
+--- sumalista (x::xs) <= sumalista(xs) + x;
+sumalista[23,54,76,10,45];
+
+dec cuadlista: list(num) -> list(num);
+---cuadlista nil <= nil;
+--- cuadlista (x::xs) <= [x*x] <>  cuadlista(xs) ;
+cuadlista[5,4,3,10];
+
+dec pertenece:  num # list(num) -> truval;
+---pertenece (x,nil) <= false;
+---pertenece (x,y::ys) <= if x=y then true else pertenece(x,ys);
+pertenece(5,[20,50,42,13,45]);
+pertenece(20,[20,50,42,13,45]);
+
+dec cardinalidad: list(num) -> num;
+---cardinalidad nil <= 0;
+--- cardinalidad (x::xs) <= cardinalidad(xs) + 1;
+cardinalidad[23,45,15,65,76];
+cardinalidad[23,45,15,65,76,5,6,7,8,9];
+
+dec menor: list(num) -> num;
+---menor (x::xs) <= if x< menor(xs) then x else menor(xs);
+---menor (xs::nil) <= xs;
+menor[23,45,15,65,76];
+
+dec potencia: num # num -> num;
+---potencia(x,0) <= 1;
+---potencia(x,y) <= x*potencia(x,y-1);
+potencia(3,3);
+
+
+
+
+
+
+

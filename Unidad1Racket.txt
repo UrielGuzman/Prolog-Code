@@ -1,0 +1,259 @@
+#lang racket
+
+(define (pertenece elemento conjunto)
+  (if (null? conjunto)
+     #f
+      (if (eq? elemento (car conjunto))
+          #t
+          (pertenece elemento (cdr conjunto))
+      )
+  )
+ )
+
+(define (diferencia A B)
+  (if (null? A) '()
+      (if (pertenece (car A) B)
+          (diferencia (cdr A) B)
+          (cons (car A) (diferencia (cdr A) B))
+       )
+  )
+)
+
+(define (union A B)
+  (if (null? A)
+      B
+      (if (not(pertenece(car A) B))
+          (union (car A) (cons (cdr A)B)  )
+          (union (cdr A) B)
+          )
+      )
+)
+
+(define (difS A B)
+ (union (diferencia A B) (diferencia B A))
+
+)
+
+(define (interseccion A B)
+  (if (null? A)
+      '()
+      (if (pertenece(car A) B)
+          (cons (car A) (interseccion (cdr A)B)  )
+          (interseccion (cdr A) B)
+          )
+      )
+)
+(define binario '(0 1))
+(define decimal '(0 1 2 3 4 5 6 7 8 9))
+
+(define (Disjunto? A B)
+  (if (null? (interseccion A B)) #t #f))
+
+(define (Producto uno lista)
+  (if (null? lista) '()
+      (append (list (cons uno(list(car lista))))(Producto uno (cdr lista)))
+  )
+)
+
+
+(define tel '(hayfon juawei))
+(define col '( rosa oro negro))
+
+(define (reemplaza old new lista)
+  (if (null? lista) '()
+      (if (eq? old (car lista))
+          (cons new(reemplaza old new (cdr lista)))
+          (cons (car lista) (reemplaza old new (cdr lista)))
+          )
+      )
+  )
+      
+(define (cobrar lista)
+  (if (null? lista)
+      0
+      (if (pair? lista)
+          (+ (precio (car lista) menu ) (cobrar cdr lista))
+          (+ (precio lista) menu)
+          )
+      
+  )
+)
+
+(define menu '( (mazapan 5) (chocolate 12) (paleta 5)))
+
+(define (pertenece2 elemento lista)
+  (if( null? lista)
+  #f
+  (if (pair? (car lista))
+      (if( eq? (caar lista) elemento)
+         #t
+         (pertenece elemento(cdr lista))
+         )
+      (if (eq? elemento lista) #t
+          #f
+          )
+      )
+  )
+)
+
+
+  (define (precio item menu)
+    (if (null? menu) 0
+        (if (eq? item (caar menu))
+            (cadar menu)
+            (precio item(cdr menu))
+            )
+        
+    ))
+
+
+(define (reducir elemento lista)
+  (if (null? lista) '()
+      (if (eq? elemento (car lista))
+          (reducir elemento (cdr lista))
+          (cons (car lista) (reducir elemento (cdr lista)))
+          )
+      )
+  )
+
+
+(define (incrementar valor menu)
+  (if (null? menu) '()
+      (cons (cons  (caar menu) (list (+ valor(cadar menu)))) (incrementar valor (cdr menu)))
+          )
+      )
+
+
+(define (clima grados)
+  (cond
+    ((> grados 25) 'caluroso)
+    ((>= grados 16) 'agradable)
+    ((<= grados 15) 'fresco)
+    ))
+
+(define (inventario lista)
+  (if (null? lista)
+      0
+          (+ (* (cadar lista) (caddar lista))  (inventario (cdr lista)))
+          )
+      
+  )
+  
+(define (inverso lista)
+  (if (null? lista)
+      '()
+      (append (inverso (cdr lista))(list (car lista)))
+  )
+  )
+
+(define (palindromo? lista)
+  (if (eq?  lista (inverso lista) )
+          #t
+          #f
+      )
+  )
+
+
+(define (enumerar lista n)
+  (if (null? lista)
+      '()
+      (cons (append (list(car lista))(list (+ n 1))) (enumerar (cdr lista) (+ n 1))
+      )
+  )
+  )
+
+(define (duplicar n lista)
+  (if (null? lista)
+      '()
+      (if (eq? n (car lista))
+          (append (append (list(car lista))(list (car lista)))(duplicar n (cdr lista)))
+          (cons (car lista)(duplicar n (cdr lista)))
+          )
+      )
+  )
+
+
+(define (promedio lista)
+  (if (null? lista) 0
+  ( / (sumar lista) (cardinalidad lista)))
+
+  )
+
+(define (cardinalidad lista)
+(if (null? lista) 0
+    (+ 1 (cardinalidad (cdr lista)))
+  ))
+
+
+(define (sumar lista)
+(if (null? lista) 0
+    (+ (car lista) (sumar (cdr lista))))
+  )
+
+(define (promediar lista)
+  (if (null? lista) '()
+  (if (eq? (cardinalidad (car lista)) 2)
+      (promediar (cdr lista))
+      (cons (cons (caar lista) (list (promedio (cdar lista)))) (promediar (cdr lista)))
+      
+)
+  )
+  )
+
+(define lista '( (ana 80 100 92)
+                (lluvia 30 100 50 80 20)
+                (ventas)
+                'txt
+                'qs
+                )
+             )
+
+(define (extraprom lista valor)
+  (if (null? lista) '()
+      (if (> (cadar lista) valor)
+          (append (car lista) (extraprom (cdr lista) valor))
+          (extraprom (cdr lista) valor)
+          )
+      )
+  )
+
+(define arbol '(M  (F (B ()  ())  (H () ())) (R () (W()()))))
+
+(define (postorder arbol)
+  (if (null? arbol) '()
+      (append
+       (postorder(cadr arbol))
+       (postorder (caddr arbol))
+       (list(car arbol)))
+      )
+  )
+
+ (define (a n) (or (= n 1) (= n 2)))
+
+
+(define (suma a [b 0])
+  (+ a b)
+      )
+
+(define (examen a b c)
+  ( * .5 ( /  (+ a b c) 3)) 
+  )
+
+(define (asistencia a [b 0])
+        (if (equal? b 0)
+            (* .1 a)
+            ( * .5 ( /  (+ a b) 2))
+            )
+        
+  )
+
+(define (proyecto a b c)
+    ( * .4 ( /  (+ a b c) 3))
+  )
+
+(define (califica a b c d e [f 0] [g 0])
+  (if (and (equal?  g 0) (equal?  f 0))
+      (+ (examen a b c) (asistencia d e))
+      (+ (examen a b c) (asistencia d) (proyecto e f g))      
+  )
+)
